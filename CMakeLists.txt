@@ -10,6 +10,7 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 foreach(name
   type_traits
   nullptr_t
+  forward
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
