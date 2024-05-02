@@ -28,8 +28,7 @@ int main(int argc, char **argv)
         std::jthread t2(
             [&]()
             {
-                while (!ready.load(std::memory_order_acquire))
-                    ;
+                while (!ready.load(std::memory_order_acquire));
                 int value = data.load(std::memory_order_acquire);
                 assert(value == 42);
             });
@@ -50,8 +49,7 @@ int main(int argc, char **argv)
             std::jthread t2(
                 [&]()
                 {
-                    while (!ready.load(/*std::memory_order_seq_cst*/))
-                        ;
+                    while (!ready.load(/*std::memory_order_seq_cst*/));
                     int value = data.load(/*std::memory_order_seq_cst*/);
                     assert(value == 42);
                 });
