@@ -12,6 +12,7 @@ foreach(name
   nullptr_t
   forward
   atomics
+  shared_mutex
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
