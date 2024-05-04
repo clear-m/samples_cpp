@@ -13,6 +13,7 @@ foreach(name
   forward
   atomics
   shared_mutex
+  move_exceptions
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
