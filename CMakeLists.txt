@@ -15,6 +15,7 @@ foreach(name
   shared_mutex
   move_exceptions
   spinlock
+  condition_variable
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
