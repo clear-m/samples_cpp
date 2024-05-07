@@ -28,6 +28,12 @@ bool wrapper(T &&arg)
 
 // TODO: add tests here
 template <typename T>
+struct is_lvalue_reference: std::false_type {};
+
+template <typename T>
+struct is_lvalue_reference<T&> : std::true_type {};
+
+template <typename T>
 T &&forward(std::remove_reference_t<T> &value)
 {
     return static_cast<T &&>(value);
@@ -36,7 +42,8 @@ T &&forward(std::remove_reference_t<T> &value)
 template <typename T>
 T &&forward(std::remove_reference<T> &&value)
 {
-    static_assert(!std::is_lvalue_reference_v<T>);
+    //static_assert(!std::is_lvalue_reference_v<T>);
+    static_assert(!is_lvalue_reference<T>::value);
     return static_cast<T &&>(value);
 }
 
