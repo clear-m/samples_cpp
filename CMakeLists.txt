@@ -16,6 +16,7 @@ foreach(name
   move_exceptions
   spinlock
   condition_variable
+  lambdas
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
