@@ -17,6 +17,7 @@ foreach(name
   spinlock
   condition_variable
   lambdas
+  ranges
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
