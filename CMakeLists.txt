@@ -18,6 +18,7 @@ foreach(name
   condition_variable
   lambdas
   ranges
+  template_overload
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
