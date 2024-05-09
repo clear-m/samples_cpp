@@ -19,7 +19,7 @@ foreach(name
   lambdas
   ranges
   template_overload
-  #auto
+  auto
   decltype
   rvo
   copy_elision
