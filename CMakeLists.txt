@@ -20,7 +20,7 @@ foreach(name
   ranges
   template_overload
   #auto
-  #decltype
+  decltype
   rvo
   copy_elision
 )
