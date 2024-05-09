@@ -23,6 +23,7 @@ foreach(name
   decltype
   rvo
   copy_elision
+  constexpr
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
