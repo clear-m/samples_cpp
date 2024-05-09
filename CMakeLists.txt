@@ -24,6 +24,7 @@ foreach(name
   rvo
   copy_elision
   constexpr
+  variadic
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
