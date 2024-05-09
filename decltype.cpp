@@ -70,6 +70,7 @@ int main(int argc, char **argv)
     const decltype(throw 1) *pp = &x; // const void* pp
     decltype((x)) yyy = x;            // POW! int & yyy - remember: decltype works from names and expressions
 
+    decltype(std::move(x)) uuuuu = std::move(x);
     decltype((S().x)) zz = std::move(x); // POW! int && zz
     decltype(S().x) zzz = x;
     // Debug<decltype((S().x))>(); // check it )
