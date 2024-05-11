@@ -26,6 +26,7 @@ foreach(name
   constexpr
   variadic
   iterators
+  concepts
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
