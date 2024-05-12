@@ -134,6 +134,27 @@ private:
     pointer m_ptr;
 };
 
+// ReverseIterator: для обратного прохода по элементам контейнера
+template <typename Iterator>
+class ReverseIterator {
+private:
+    Iterator current;
+
+public:
+    ReverseIterator(Iterator it) : current(it) {}
+
+    ReverseIterator& operator++() { --current; return *this; }
+    ReverseIterator operator++(int) { ReverseIterator tmp = *this; --current; return tmp; }
+    ReverseIterator& operator--() { ++current; return *this; }
+    ReverseIterator operator--(int) { ReverseIterator tmp = *this; ++current; return tmp; }
+    
+    typename std::iterator_traits<Iterator>::reference operator*() const { auto copy = current; return *--copy; }
+    typename std::iterator_traits<Iterator>::pointer operator->() const { auto copy = current; return &*--copy; }
+    bool operator==(const ReverseIterator& other) const { return current == other.current; }
+    bool operator!=(const ReverseIterator& other) const { return !(*this == other); }
+};
+
+
 // Sentinel Iterators attempt
 // Создаем класс Sentinel Iterator
 template <typename T>
@@ -211,6 +232,16 @@ int main(int argc, char **argv)
         it += 2;
         std::cout << *it << std::endl; // Выведет 2
     }
+    // Reverse Iterator
+    {
+        std::vector<int> vec = {1, 2, 3, 4, 5};
+
+        ReverseIterator<std::vector<int>::iterator> rit(vec.end());
+        for(; rit != vec.begin(); ++rit) {
+            std::cout << *rit << " ";
+        }
+        std::cout << std::endl;
+    }
     // more info https://en.cppreference.com/w/cpp/iterator/sentinel_for
     {
         std::vector<int> numbers = {1, 2, 3, -1, 4, 5, -1, 6, 7};
@@ -232,6 +263,5 @@ int main(int argc, char **argv)
         }
         std::cout << std::endl;
     }
-
     return 0;
 }
