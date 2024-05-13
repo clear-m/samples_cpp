@@ -28,6 +28,7 @@ foreach(name
   iterators
   concepts
   adl
+  padding_alignment
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
