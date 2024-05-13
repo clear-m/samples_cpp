@@ -27,6 +27,7 @@ foreach(name
   variadic
   iterators
   concepts
+  adl
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
