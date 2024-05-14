@@ -29,6 +29,7 @@ foreach(name
   concepts
   adl
   padding_alignment
+  algorithms
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
