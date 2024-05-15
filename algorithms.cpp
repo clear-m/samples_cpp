@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <vector>
 #include <iostream>
+#include <random>
 #include <numeric>
 
 int main(int argc, char **argv)
@@ -9,7 +10,9 @@ int main(int argc, char **argv)
         // Алгоритмы сортировки и поиска
         {
             std::vector<int> v{5, 2, 9, 1, 7};
-            std::sort(v.begin(), v.end());
+            std::sort(v.begin(), v.end()); // O(N log(N)) - §25.4.1.1/3
+            std::shuffle(v.begin(), v.end(), std::mt19937{std::random_device{}()}); // O(N)
+            std::stable_sort(v.begin(), v.end()); // N log²(N) - 25.4.1.2/3
             bool found = std::binary_search(v.begin(), v.end(), 7);
         }
         {

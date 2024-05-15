@@ -32,6 +32,11 @@ foreach(name
   algorithms
   containers
   oop_err_1
+  oop_late_binding
+  oop_call_base_class_method
+  friend_function
+  operators
+  statics
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
