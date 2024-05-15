@@ -37,6 +37,7 @@ foreach(name
   friend_function
   operators
   statics
+  asm
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
