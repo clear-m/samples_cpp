@@ -1,7 +1,26 @@
 #include <iostream>
 #include <memory>
 
-class MyClass {
+class SmartPtr
+{
+    int *ptr; // Actual pointer
+public:
+    explicit SmartPtr(int *p = NULL) { ptr = p; }
+
+    ~SmartPtr()
+    {
+        delete (ptr);
+    }
+
+    // Overloading dereferencing operator
+    int &operator*()
+    {
+        return *ptr;
+    }
+};
+
+class MyClass
+{
 public:
     MyClass() { std::cout << "MyClass created" << std::endl; }
     ~MyClass() { std::cout << "MyClass destroyed" << std::endl; }
@@ -10,7 +29,12 @@ public:
 int main(int argc, char **argv)
 {
     {
-        std::unique_ptr<MyClass> ptr(new MyClass());// owns, can't copy, can't move
+        SmartPtr ptr(new int());
+        *ptr = 20;
+        std::cout << *ptr;
+    }
+    {
+        std::unique_ptr<MyClass> ptr(new MyClass()); // owns, can't copy, can't move
     }
     {
         std::shared_ptr<MyClass> ptr1(new MyClass()); // owns, shared
