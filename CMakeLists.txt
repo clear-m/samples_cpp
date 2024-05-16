@@ -41,6 +41,7 @@ foreach(name
   oop_refactoring
   fibo_constexpr
   fibo_variadic
+  exceptions_err1
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
