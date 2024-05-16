@@ -39,6 +39,8 @@ foreach(name
   statics
   asm
   oop_refactoring
+  fibo_constexpr
+  fibo_variadic
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
