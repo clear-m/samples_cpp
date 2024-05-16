@@ -38,6 +38,7 @@ foreach(name
   operators
   statics
   asm
+  oop_refactoring
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
