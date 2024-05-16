@@ -34,13 +34,13 @@ template <typename T>
 struct is_lvalue_reference<T&> : std::true_type {};
 
 template <typename T>
-T &&forward(std::remove_reference_t<T> &value)
+T &&forward(std::remove_reference_t<T> &value) //  preserve the value category of the argument
 {
     return static_cast<T &&>(value);
 }
 
 template <typename T>
-T &&forward(std::remove_reference<T> &&value)
+T &&forward(std::remove_reference<T> &&value) //  preserve the value category of the argument
 {
     //static_assert(!std::is_lvalue_reference_v<T>);
     static_assert(!is_lvalue_reference<T>::value);
@@ -48,7 +48,7 @@ T &&forward(std::remove_reference<T> &&value)
 }
 
 template <typename T>
-std::remove_reference_t<T> &&move(T &&value)
+std::remove_reference_t<T> &&move(T &&value) // transfer ownership of an object's resources
 {
     return static_cast<std::remove_reference_t<T> &&>(value);
 }

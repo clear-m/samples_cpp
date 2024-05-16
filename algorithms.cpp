@@ -103,7 +103,7 @@ int main(int argc, char **argv)
             std::replace_if(numbers.begin(), numbers.end(), [](int x)
                             { return x % 2 == 0; }, 0);
 
-            for (const auto &num : numbers)
+            for (const  auto&num : numbers)
             {
                 std::cout << num << " ";
             }

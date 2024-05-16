@@ -68,7 +68,15 @@ namespace M
         {
             f(N::X{}); // ADL ищет f в N и M
         }
+        void f(N::X ) // adl chooses this one if uncommented
+        {
+            return;
+        }
     };
+    void f(N::X ) // more than one instance of function "M::f" matches the argument list:C/C++(308) but adl chooses other one
+    {
+        return;
+    }
 }
 
 // Niebloids

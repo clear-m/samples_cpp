@@ -42,6 +42,7 @@ int main(int argc, char **argv)
     // also (since C++17)
     std::string s1 = std::move(std::string("abc")); // xvalue - not copy elision
     std::string s2 = std::string("abc"); // prvalue - copy elision
+    // prvalue - does not have identity
 
     return 0;
 }
