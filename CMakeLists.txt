@@ -42,6 +42,7 @@ foreach(name
   fibo_constexpr
   fibo_variadic
   exceptions_err1
+  exception_ptr
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
