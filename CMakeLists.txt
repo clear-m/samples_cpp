@@ -43,6 +43,7 @@ foreach(name
   fibo_variadic
   exceptions_err1
   exception_ptr
+  exception_uncaught
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
