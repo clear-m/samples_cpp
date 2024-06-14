@@ -44,6 +44,7 @@ foreach(name
   exceptions_err1
   exception_ptr
   exception_uncaught
+  allocators
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
