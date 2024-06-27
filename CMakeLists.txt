@@ -47,12 +47,13 @@ foreach(name
   allocators
   overloads
   requires
+  sockets
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
   set_target_properties(${name}
     PROPERTIES
-    CXX_STANDARD 20
+    CXX_STANDARD 23
     CXX_EXTENSIONS off
     )
   add_test(
