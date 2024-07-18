@@ -2,6 +2,8 @@
 #include <cassert>
 #include <type_traits>
 #include <utility>
+#include <ranges>
+#include <array>
 
 template <typename T>
     requires requires(T x) { x + x; }
@@ -27,6 +29,11 @@ T sum3(T a, T b)
 {
     return a + b;
 }
+
+template <typename T>
+concept IntConvertiable = requires(T x) {
+    {x} -> std::convertible_to<int>;
+};
 
 template <typename T, typename U>
     requires std::convertible_to<decltype(std::declval<T>().f(std::declval<U>())), int>
@@ -85,6 +92,29 @@ int main(int argc, char **argv)
             S() = delete;
         };
         // create_default<S>(); // CE: constraints not satisfied
+    }
+    {
+        // modernize
+        auto bubble_sort = [](auto &arr)
+            requires std::ranges::range<decltype(arr)>
+        {
+            auto n = arr.size();
+            for (int i = 0; i < n - 1; i++)
+            {
+                // last i elements are already in place
+                for (int j = 0; j < n - i - 1; j++)
+                {
+                    if (arr[j] > arr[j + 1])
+                    {
+                        std::swap(arr[j], arr[j + 1]);
+                    }
+                }
+            }
+        };
+        std::array arr{3, 1, 4, 2, 5};
+        std::array sorted{1, 2, 3, 4, 5};
+        bubble_sort(arr);
+        assert(arr == sorted);
     }
     return 0;
 }
