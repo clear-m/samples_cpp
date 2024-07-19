@@ -49,6 +49,7 @@ foreach(name
   requires
   sockets
   geeks
+  ctor_dtor
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE)
