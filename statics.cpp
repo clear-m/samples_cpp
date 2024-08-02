@@ -24,6 +24,7 @@ public:
     void showid()
     {
         std::cout << "ID is " << id << "\n";
+        std::cout << "Total is " << total << "\n";
     }
 };
 

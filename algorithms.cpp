@@ -3,6 +3,7 @@
 #include <iostream>
 #include <random>
 #include <numeric>
+#include <cassert>
 
 int main(int argc, char **argv)
 {
@@ -14,6 +15,7 @@ int main(int argc, char **argv)
             std::shuffle(v.begin(), v.end(), std::mt19937{std::random_device{}()}); // O(N)
             std::stable_sort(v.begin(), v.end()); // N log²(N) - 25.4.1.2/3
             bool found = std::binary_search(v.begin(), v.end(), 7);
+            assert(found);
         }
         {
             std::vector<int> v = {1, 3, 5, 7, 9};
@@ -48,6 +50,7 @@ int main(int argc, char **argv)
         {
             std::vector<int> v1{1, 2, 3}, v2{1, 2, 3};
             bool are_equal = std::equal(v1.begin(), v1.end(), v2.begin());
+            assert(are_equal);
         }
         {
             std::vector<std::string> vec1 = {"apple", "banana", "cherry"};
@@ -68,7 +71,6 @@ int main(int argc, char **argv)
             std::vector<int> vec2 = {1, 2, 4};
 
             bool result = std::lexicographical_compare(vec1.begin(), vec1.end(), vec2.begin(), vec2.end());
-
             if (result)
             {
                 std::cout << "Первый диапазон лексикографически меньше второго." << std::endl;
@@ -88,9 +90,7 @@ int main(int argc, char **argv)
         }
         {
             std::vector<int> numbers = {1, 2, 3, 4, 2, 5};
-
             std::replace(numbers.begin(), numbers.end(), 2, 6);
-
             for (const auto &num : numbers)
             {
                 std::cout << num << " ";
@@ -99,10 +99,8 @@ int main(int argc, char **argv)
         }
         {
             std::vector<int> numbers = {1, 2, 3, 4, 5};
-
             std::replace_if(numbers.begin(), numbers.end(), [](int x)
                             { return x % 2 == 0; }, 0);
-
             for (const  auto&num : numbers)
             {
                 std::cout << num << " ";

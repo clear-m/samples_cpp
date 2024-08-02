@@ -32,7 +32,7 @@ T sum3(T a, T b)
 
 template <typename T>
 concept IntConvertiable = requires(T x) {
-    {x} -> std::convertible_to<int>;
+    { x } -> std::convertible_to<int>;
 };
 
 template <typename T, typename U>
