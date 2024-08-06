@@ -6,6 +6,8 @@
 
 #include <stack>
 #include <unordered_map>
+#include <queue>
+#include <algorithm>
 
 // INFO: LLM curated samples
 int find_max(const std::vector<int> &nums)
@@ -377,6 +379,104 @@ bool is_balanced(const std::string &str)
     return s.empty();
 }
 
+void selection_sort(std::vector<int> &nums)
+{
+    int n = nums.size();
+    for (int i = 0; i < n - 1; ++i)
+    {
+        int min_index = i;
+        for (int j = i + 1; j < n; ++j)
+        {
+            if (nums[j] < nums[min_index])
+            {
+                min_index = j;
+            }
+        }
+        std::swap(nums[i], nums[min_index]);
+    }
+}
+
+int max_subarray_sum(const std::vector<int> &nums)
+{
+    int max_sum = nums[0];
+    int current_sum = nums[0];
+    for (size_t i = 1; i < nums.size(); ++i)
+    {
+        current_sum = std::max(nums[i], current_sum + nums[i]);
+        max_sum = std::max(max_sum, current_sum);
+    }
+    return max_sum;
+}
+
+void generate_permutations(std::string str, int l, int r)
+{
+    if (l == r)
+    {
+        std::cout << str << std::endl;
+    }
+    else
+    {
+        for (int i = l; i <= r; ++i)
+        {
+            std::swap(str[l], str[i]);
+            generate_permutations(str, l + 1, r);
+            std::swap(str[l], str[i]);
+        }
+    }
+}
+
+void dijkstra(int start, const std::vector<std::vector<std::pair<int, int>>> &graph)
+{
+    const int INF = 1e9;
+    std::vector<int> dist(graph.size(), INF);
+    dist[start] = 0;
+    using PII = std::pair<int, int>; // {distance, vertex}
+    std::priority_queue<PII, std::vector<PII>, std::greater<PII>> pq;
+    pq.push({0, start});
+
+    while (!pq.empty())
+    {
+        int d = pq.top().first;
+        int u = pq.top().second;
+        pq.pop();
+
+        if (d > dist[u])
+            continue;
+
+        for (const auto &edge : graph[u])
+        {
+            int v = edge.first;
+            int weight = edge.second;
+            if (dist[u] + weight < dist[v])
+            {
+                dist[v] = dist[u] + weight;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+
+    for (int i = 0; i < dist.size(); i++)
+    {
+        std::cout << "Distance from " << start << " to " << i << " is " << dist[i] << std::endl;
+    }
+}
+
+std::string add_strings(const std::string& num1, const std::string& num2) {
+    std::string result;
+    int carry = 0;
+    int i = num1.size() - 1, j = num2.size() - 1;
+
+    while (i >= 0 || j >= 0 || carry) {
+        int sum = carry;
+        if (i >= 0) sum += num1[i--] - '0';
+        if (j >= 0) sum += num2[j--] - '0';
+        result.push_back(sum % 10 + '0');
+        carry = sum / 10;
+    }
+    std::reverse(result.begin(), result.end());
+    return result;
+}
+
 int main(int argc, char **argv)
 {
     assert(find_max({1, 2, 3, 4, 5}) == 5);
@@ -461,6 +561,38 @@ int main(int argc, char **argv)
     {
         std::string input{"{[()]}"};
         assert(is_balanced(input));
+    }
+    {
+        std::vector<int> numbers{64, 25, 12, 22, 11};
+        selection_sort(numbers);
+        assert(numbers.front() < numbers.back());
+    }
+    {
+        std::vector<int> numbers{-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        assert(max_subarray_sum(numbers) == 6);
+    }
+    {
+        std::string str{"ABC"};
+        generate_permutations(str, 0, str.size());
+    }
+    {
+        int vertices = 5;
+        std::vector<std::vector<std::pair<int, int>>> graph(vertices);
+        graph[0].emplace_back(1, 10);
+        graph[0].emplace_back(4, 5);
+        graph[1].emplace_back(2, 1);
+        graph[1].emplace_back(4, 2);
+        graph[2].emplace_back(3, 4);
+        graph[3].emplace_back(0, 7);
+        graph[4].emplace_back(1, 3);
+        graph[4].emplace_back(2, 9);
+        graph[4].emplace_back(3, 2);
+        dijkstra(0, graph);
+    }
+    {
+        std::string num1{"12345678901234567890"};
+        std::string num2{"98765432109876543210"};
+        assert(add_strings(num1, num2) == "111111111011111111100");
     }
     return 0;
 }
