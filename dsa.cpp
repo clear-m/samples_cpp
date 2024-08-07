@@ -461,20 +461,120 @@ void dijkstra(int start, const std::vector<std::vector<std::pair<int, int>>> &gr
     }
 }
 
-std::string add_strings(const std::string& num1, const std::string& num2) {
+std::string add_strings(const std::string &num1, const std::string &num2)
+{
     std::string result;
     int carry = 0;
     int i = num1.size() - 1, j = num2.size() - 1;
 
-    while (i >= 0 || j >= 0 || carry) {
+    while (i >= 0 || j >= 0 || carry)
+    {
         int sum = carry;
-        if (i >= 0) sum += num1[i--] - '0';
-        if (j >= 0) sum += num2[j--] - '0';
+        if (i >= 0)
+            sum += num1[i--] - '0';
+        if (j >= 0)
+            sum += num2[j--] - '0';
         result.push_back(sum % 10 + '0');
         carry = sum / 10;
     }
     std::reverse(result.begin(), result.end());
     return result;
+}
+
+int binary_search(const std::vector<int> &nums, int target)
+{
+    int left = 0;
+    int right = nums.size() - 1;
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        if (nums[mid] < target)
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid - 1;
+        }
+    }
+    return -1;
+}
+
+int remove_element(std::vector<int> &nums, int val)
+{
+    int k = 0;
+    for (int i = 0; i < nums.size(); ++i)
+    {
+        if (nums[i] != val)
+        {
+            nums[k++] = nums[i];
+        }
+    }
+    return k;
+}
+
+bool are_anagrams(const std::string &str1, const std::string &str2)
+{
+    if (str1.length() != str2.length())
+    {
+        return false;
+    }
+    std::unordered_map<char, int> char_count;
+    for (char c : str1)
+    {
+        char_count[c]++;
+    }
+    for (char c : str2)
+    {
+        if (char_count[c] == 0)
+        {
+            return false;
+        }
+        char_count[c]--;
+    }
+    return true;
+}
+
+std::vector<int> merge_sorted_arrays(const std::vector<int> &nums1, const std::vector<int> &nums2)
+{
+    std::vector<int> merged;
+    int i = 0;
+    int j = 0;
+    while (i < nums1.size() && j < nums2.size())
+    {
+        if (nums1[i] < nums2[j])
+        {
+            merged.push_back(nums1[i++]);
+        }
+        else
+        {
+            merged.push_back(nums2[j++]);
+        }
+    }
+    while (i < nums1.size())
+    {
+        merged.push_back(nums1[i++]);
+    }
+    while (j < nums2.size())
+    {
+        merged.push_back(nums2[j++]);
+    }
+    return merged;
+}
+
+int find_missing_number(const std::vector<int> &nums, int n)
+{
+    int total = n * (n + 1) / 2;
+    int sum = 0;
+    for (int num : nums)
+    {
+        sum += num;
+    }
+    return total - sum;
 }
 
 int main(int argc, char **argv)
@@ -593,6 +693,36 @@ int main(int argc, char **argv)
         std::string num1{"12345678901234567890"};
         std::string num2{"98765432109876543210"};
         assert(add_strings(num1, num2) == "111111111011111111100");
+    }
+    {
+        std::vector<int> numbers{1, 2, 3, 4, 5};
+        int target = 3;
+        assert(binary_search(numbers, target) == 2);
+    }
+    {
+        std::vector<int> nums{3, 2, 2, 3};
+        std::vector<int> after_remove{2, 2, 2, 3};
+        int val = 3;
+        int new_size = remove_element(nums, val);
+        assert(new_size == 2);
+        assert(nums == after_remove);
+    }
+    {
+        std::string str1{"listen"};
+        std::string str2{"silent"};
+        assert(are_anagrams(str1, str2));
+    }
+    {
+        std::vector a{1, 3, 5};
+        std::vector b{2, 4, 6};
+        std::vector c{1, 2, 3, 4, 5, 6};
+        std::vector merged = merge_sorted_arrays(a, b);
+        assert(merged == c);
+    }
+    {
+        std::vector<int> nums{1, 2, 4, 5};
+        int n = 5;
+        assert(find_missing_number(nums, n) == 3);
     }
     return 0;
 }
