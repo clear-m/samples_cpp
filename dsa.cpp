@@ -577,6 +577,77 @@ int find_missing_number(const std::vector<int> &nums, int n)
     return total - sum;
 }
 
+std::string longest_common_prefix(const std::vector<std::string> &strs)
+{
+    if (strs.empty())
+    {
+        return "";
+    }
+    std::string prefix = strs[0];
+    for (std::size_t i{1}; i < strs.size(); ++i)
+    {
+        while (strs[i].find(prefix) == std::string::npos)
+        {
+            prefix = prefix.substr(0, prefix.length() - 1);
+            if (prefix.empty())
+                return "";
+        }
+    }
+    return prefix;
+}
+
+int find_median_sorted_arrays(std::vector<int> &nums1, std::vector<int> &nums2)
+{
+    std::vector<int> merged;
+    merged.reserve(nums1.size() + nums2.size());
+    merged.insert(merged.end(), nums1.begin(), nums1.end());
+    merged.insert(merged.end(), nums2.begin(), nums2.end());
+    std::sort(merged.begin(), merged.end());
+    int n = merged.size();
+    const int mid_idx = n / 2;
+    if (n % 2 == 0)
+    {
+        const int left_idx = n / 2 - 1;
+        return (merged[left_idx] + merged[mid_idx]);
+    }
+    else
+    {
+        return merged[mid_idx];
+    }
+}
+
+int partition(std::vector<int> &nums, int low, int high)
+{
+    int pivot = nums[high];
+    int i = low - 1;
+    for (int j = low; j < high; ++j)
+    {
+        if (nums[j] < pivot)
+        {
+            i++;
+            std::swap(nums[i], nums[j]);
+        }
+    }
+    std::swap(nums[i + 1], nums[high]);
+    return i + 1;
+}
+
+void quick_sort(std::vector<int> &nums, int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(nums, low, high);
+        quick_sort(nums, low, pi - 1);
+        quick_sort(nums, pi + 1, high);
+    }
+}
+
+int find_kth_smallest(std::vector<int> &nums, int k)
+{
+    std::sort(nums.begin(), nums.end());
+    return nums[k - 1];
+}
+
 int main(int argc, char **argv)
 {
     assert(find_max({1, 2, 3, 4, 5}) == 5);
@@ -723,6 +794,26 @@ int main(int argc, char **argv)
         std::vector<int> nums{1, 2, 4, 5};
         int n = 5;
         assert(find_missing_number(nums, n) == 3);
+    }
+    {
+        std::vector<std::string> strs{"flower", "flow", "flight"};
+        assert(longest_common_prefix(strs) == "fl");
+    }
+    {
+        std::vector<int> nums1{1, 3};
+        std::vector<int> nums2{2};
+        assert(find_median_sorted_arrays(nums1, nums2) == 2);
+    }
+    {
+        std::vector<int> numbers{10, 7, 8, 9, 1, 5};
+        std::vector<int> sorted_numbers{1, 5, 7, 8, 9, 10};
+        quick_sort(numbers, 0, numbers.size() - 1);
+        assert(numbers == sorted_numbers);
+    }
+    {
+        std::vector<int> nums{3, 2, 1, 5, 6, 4};
+        int k = 2;
+        assert(find_kth_smallest(nums, k) == 2);
     }
     return 0;
 }
