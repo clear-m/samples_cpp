@@ -6,8 +6,10 @@
 
 #include <stack>
 #include <unordered_map>
+#include <unordered_set>
 #include <queue>
 #include <algorithm>
+#include <iterator>
 
 // INFO: LLM curated samples
 int find_max(const std::vector<int> &nums)
@@ -648,6 +650,79 @@ int find_kth_smallest(std::vector<int> &nums, int k)
     return nums[k - 1];
 }
 
+int length_of_longest_substring(const std::string &s)
+{
+    std::unordered_map<char, int> charIndex;
+    int maxLength = 0;
+    int start = 0;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (charIndex.find(s[i]) != charIndex.end())
+        {
+            start = std::max(start, charIndex[s[i]] + 1);
+        }
+        charIndex[s[i]] = i;
+        maxLength = std::max(maxLength, i - start + 1);
+    }
+    return maxLength;
+}
+
+int add(int a, int b)
+{
+    while (b != 0)
+    {
+        int carry = a & b; // Вычисляем перенос
+        a = a ^ b;         // Сумма без учета переноса
+        b = carry << 1;    // Перенос на один бит влево
+    }
+    return a;
+}
+
+std::vector<int> intersect(const std::vector<int> &nums1, const std::vector<int> &nums2)
+{
+    std::unordered_set<int> set1(nums1.begin(), nums1.end());
+    std::vector<int> intersection;
+    for (int num : nums2)
+    {
+        if (set1.erase(num))
+        {
+            intersection.push_back(num);
+        }
+    }
+    return intersection;
+}
+
+int move_zeroes(std::vector<int> &nums)
+{
+    int last_non_zero_found_at = 0;
+    for (int i = 0; i < nums.size(); ++i)
+    {
+        if (nums[i] != 0)
+        {
+            nums[last_non_zero_found_at++] = nums[i];
+        }
+    }
+    for (int i = last_non_zero_found_at; i < nums.size(); ++i)
+    {
+        nums[i] = 0;
+    }
+    return last_non_zero_found_at;
+}
+
+bool is_permutation(const std::string &str1, const std::string &str2)
+{
+    if (str1.length() != str2.length())
+    {
+        return false;
+    }
+    std::string sorted_str1{str1};
+    std::string sorted_str2{str2};
+    std::sort(sorted_str1.begin(), sorted_str1.end());
+    std::sort(sorted_str2.begin(), sorted_str2.end());
+    return sorted_str1 == sorted_str2;
+}
+
 int main(int argc, char **argv)
 {
     assert(find_max({1, 2, 3, 4, 5}) == 5);
@@ -814,6 +889,32 @@ int main(int argc, char **argv)
         std::vector<int> nums{3, 2, 1, 5, 6, 4};
         int k = 2;
         assert(find_kth_smallest(nums, k) == 2);
+    }
+    {
+        std::string input{"abcabcbb"};
+        length_of_longest_substring(input);
+    }
+    {
+        int a = 5;
+        int b = 3;
+        assert(add(a, b) == 8);
+    }
+    {
+        std::vector<int> nums1{1, 2, 2, 1};
+        std::vector<int> nums2{2, 2};
+        std::vector<int> intersected{2};
+        assert(intersect(nums1, nums2) == intersected);
+    }
+    {
+        std::vector<int> nums{0, 1, 0, 3, 12};
+        std::vector<int> result{1, 3, 12};
+        nums.erase(std::next(nums.begin(), move_zeroes(nums)), nums.end());
+        assert(nums == result);
+    }
+    {
+        std::string str1{"listen"};
+        std::string str2{"silent"};
+        assert(is_permutation(str1, str2));
     }
     return 0;
 }
