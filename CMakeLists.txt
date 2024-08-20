@@ -6,6 +6,8 @@ enable_testing()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 
 foreach(name
   type_traits
@@ -52,9 +54,13 @@ foreach(name
   ctor_dtor
   metaprogramming
   dsa
+  bluetooth_linux
 )
   add_executable(${name} ${name}.cpp)
-  target_link_libraries(${name} PRIVATE)
+  target_link_libraries(${name} PRIVATE Threads::Threads)
+  if (${name} STREQUAL "bluetooth_linux")
+    target_link_libraries(${name} PRIVATE "bluetooth")
+  endif()
   set_target_properties(${name}
     PROPERTIES
     CXX_STANDARD 23
