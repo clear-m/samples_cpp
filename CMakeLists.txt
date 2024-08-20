@@ -55,11 +55,14 @@ foreach(name
   metaprogramming
   dsa
   bluetooth_linux
+  pcap_linux
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE Threads::Threads)
   if (${name} STREQUAL "bluetooth_linux")
     target_link_libraries(${name} PRIVATE "bluetooth")
+  elseif (${name} STREQUAL "pcap_linux")
+    target_link_libraries(${name} PRIVATE "pcap")
   endif()
   set_target_properties(${name}
     PROPERTIES
