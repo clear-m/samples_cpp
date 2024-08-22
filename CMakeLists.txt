@@ -56,6 +56,8 @@ foreach(name
   dsa
   bluetooth_linux
   pcap_linux
+  upnp_linux
+  exception_empty
 )
   add_executable(${name} ${name}.cpp)
   target_link_libraries(${name} PRIVATE Threads::Threads)
@@ -63,6 +65,8 @@ foreach(name
     target_link_libraries(${name} PRIVATE "bluetooth")
   elseif (${name} STREQUAL "pcap_linux")
     target_link_libraries(${name} PRIVATE "pcap")
+  elseif (${name} STREQUAL "upnp_linux")
+    target_link_libraries(${name} PRIVATE "upnp")
   endif()
   set_target_properties(${name}
     PROPERTIES
